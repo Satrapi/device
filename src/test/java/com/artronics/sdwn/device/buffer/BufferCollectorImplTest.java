@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.buffer;
 
 import com.artronics.sdwn.controller.SdwnController;
-import com.artronics.sdwn.domain.entities.SwitchingNetwork;
+import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.junit.Before;
 import org.junit.Test;
@@ -157,7 +157,7 @@ public class BufferCollectorImplTest
             return new SdwnController()
             {
                 @Override
-                public SwitchingNetwork registerSwitchingNetwork(SwitchingNetwork device)
+                public DeviceConnectionEntity registerDeviceConnection(DeviceConnectionEntity device)
                 {
                     return null;
                 }

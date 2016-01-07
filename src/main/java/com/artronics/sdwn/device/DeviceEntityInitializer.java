@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device;
 
 import com.artronics.sdwn.controller.SdwnController;
-import com.artronics.sdwn.domain.entities.SwitchingNetwork;
+import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +23,7 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
     private DeviceDriver serialPort;
 
-    private SwitchingNetwork device;
+    private DeviceConnectionEntity device;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
@@ -48,8 +48,8 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
     private void registerDevice() throws MalformedURLException
     {
-        device = new SwitchingNetwork(deviceUrl);
-        device=sdwnController.registerSwitchingNetwork(device);
+        device = new DeviceConnectionEntity(deviceUrl);
+        device=sdwnController.registerDeviceConnection(device);
     }
 
     @Autowired

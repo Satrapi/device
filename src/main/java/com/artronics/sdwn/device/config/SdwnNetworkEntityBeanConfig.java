@@ -3,10 +3,10 @@ package com.artronics.sdwn.device.config;
 import com.artronics.sdwn.controller.SdwnController;
 import com.artronics.sdwn.device.exception.SdwnControllerNotFound;
 import com.artronics.sdwn.domain.config.SdwnDomainConfig;
+import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
-import com.artronics.sdwn.domain.entities.SwitchingNetwork;
+import com.artronics.sdwn.domain.repositories.DeviceConnectionRepo;
 import com.artronics.sdwn.domain.repositories.SdwnControllerRepo;
-import com.artronics.sdwn.domain.repositories.SwitchingNetRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,13 +23,13 @@ public class SdwnNetworkEntityBeanConfig
     private final static Logger log = Logger.getLogger(SdwnNetworkEntityBeanConfig.class);
 
     private SdwnControllerEntity controllerEntity;
-    private SwitchingNetwork device;
+    private DeviceConnectionEntity device;
 
     @Autowired
     private SdwnControllerRepo controllerRepo;
 
     @Autowired
-    private SwitchingNetRepo netRepo;
+    private DeviceConnectionRepo netRepo;
 
     @Value("${com.artronics.sdwn.controller.url}")
     private String controllerUrl;
