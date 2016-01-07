@@ -1,7 +1,7 @@
-package com.artronics.sdwn.device.serialPort;
+package com.artronics.sdwn.device.driver.serialPort;
 
-import com.artronics.sdwn.device.DeviceDriver;
 import com.artronics.sdwn.device.buffer.BufferDistributor;
+import com.artronics.sdwn.device.driver.DeviceDriver;
 import com.artronics.sdwn.device.exception.DeviceConnectionException;
 import gnu.io.*;
 import org.apache.log4j.Logger;

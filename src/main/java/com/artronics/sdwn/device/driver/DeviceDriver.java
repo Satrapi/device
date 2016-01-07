@@ -1,4 +1,4 @@
-package com.artronics.sdwn.device;
+package com.artronics.sdwn.device.driver;
 
 import com.artronics.sdwn.device.exception.DeviceConnectionException;
 

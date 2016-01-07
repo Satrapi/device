@@ -1,4 +1,4 @@
-package com.artronics.sdwn.device;
+package com.artronics.sdwn.device.connection;
 
 import com.artronics.sdwn.controller.DeviceConnectionService;
 import org.apache.log4j.Logger;

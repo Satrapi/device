@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.config;
 
 import com.artronics.sdwn.controller.DeviceConnectionService;
-import com.artronics.sdwn.device.DeviceConnectionServiceImpl;
+import com.artronics.sdwn.device.connection.DeviceConnectionServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
