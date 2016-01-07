@@ -20,11 +20,12 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     @Autowired
     private SdwnController sdwnController;
 
+    @Autowired
+    private DeviceConnectionEntity device;
+
     private String deviceUrl;
 
     private DeviceDriver serialPort;
-
-    private DeviceConnectionEntity device;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
@@ -33,11 +34,13 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
         serialPort.init();
 
-        try {
-            registerDevice();
-        }catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        System.out.println(device.toString());
+
+//        try {
+//            registerDevice();
+//        }catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
 
 //        try {
 //            serialPort.open();
@@ -64,4 +67,5 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     {
         this.deviceUrl = deviceUrl;
     }
+
 }

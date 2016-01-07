@@ -14,17 +14,17 @@ public class DeviceHessianConfig
     private final static Logger log = Logger.getLogger(DeviceHessianConfig.class);
 
     @Autowired
-    private DeviceConnectionService switchingNetworkDevice;
+    private DeviceConnectionService connectionService;
 
     @Bean
     public DeviceConnectionService getSwitchingNetworkService(){
         return new DeviceConnectionServiceImpl();
     }
 
-    @Bean(name = "/switchingDevice")
+    @Bean(name = "/deviceService")
     public HessianServiceExporter pingServiceExport() {
         HessianServiceExporter he = new HessianServiceExporter();
-        he.setService(switchingNetworkDevice);
+        he.setService(connectionService);
         he.setServiceInterface(DeviceConnectionService.class);
         return he;
     }

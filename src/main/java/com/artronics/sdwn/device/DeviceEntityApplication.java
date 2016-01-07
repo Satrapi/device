@@ -1,20 +1,31 @@
 package com.artronics.sdwn.device;
 
-import com.artronics.sdwn.device.config.DeviceEntityConfig;
-import com.artronics.sdwn.device.config.DeviceHessianConfig;
-import com.artronics.sdwn.device.config.SdwnNetworkEntityBeanConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.artronics.sdwn.device")
+@PropertySource("classpath:application.properties")
+//@Import(SdwnDomainApplication.class)
 public class DeviceEntityApplication {
 
 	public static void main(String[] args) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder();
-        builder.sources(DeviceEntityApplication.class,
-                        DeviceEntityConfig.class,
-                        SdwnNetworkEntityBeanConfig.class,
-                        DeviceHessianConfig.class)
+        builder.sources(DeviceEntityApplication.class
+//                        SdwnNetworkEntityBeanConfig.class,
+//                        DeviceHessianConfig.class
+        )
                .build().run(args);
 	}
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer()
+    {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+
 }
