@@ -1,5 +1,7 @@
 package com.artronics.sdwn.device.buffer;
 
+import com.artronics.sdwn.controller.SdwnController;
+import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -148,6 +150,23 @@ public class BufferCollectorImplTest
         public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer()
         {
             return new PropertySourcesPlaceholderConfigurer();
+        }
+        @Bean
+        public SdwnController getController(){
+            return new SdwnController()
+            {
+                @Override
+                public void init()
+                {
+
+                }
+
+                @Override
+                public void addPacket(PacketEntity packet)
+                {
+
+                }
+            };
         }
     }
 }

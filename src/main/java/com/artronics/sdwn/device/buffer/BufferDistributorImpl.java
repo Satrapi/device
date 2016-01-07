@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.buffer;
 
-import com.artronics.gsdwn.suren.entities.packet.PacketEntity;
 import com.artronics.sdwn.controller.SdwnController;
+import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
