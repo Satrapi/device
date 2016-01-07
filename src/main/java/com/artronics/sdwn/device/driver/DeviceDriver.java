@@ -1,6 +1,7 @@
 package com.artronics.sdwn.device.driver;
 
-import com.artronics.sdwn.device.exception.DeviceConnectionException;
+
+import com.artronics.sdwn.controller.exceptions.DeviceConnectionException;
 
 public interface DeviceDriver
 {

@@ -1,8 +1,8 @@
 package com.artronics.sdwn.device.driver.serialPort;
 
+import com.artronics.sdwn.controller.exceptions.DeviceConnectionException;
 import com.artronics.sdwn.device.buffer.BufferDistributor;
 import com.artronics.sdwn.device.driver.DeviceDriver;
-import com.artronics.sdwn.device.exception.DeviceConnectionException;
 import gnu.io.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

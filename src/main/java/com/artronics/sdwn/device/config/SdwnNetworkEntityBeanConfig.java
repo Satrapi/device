@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.config;
 
 import com.artronics.sdwn.controller.SdwnController;
-import com.artronics.sdwn.device.exception.SdwnControllerNotFound;
+import com.artronics.sdwn.controller.exceptions.SdwnControllerNotFound;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import com.artronics.sdwn.domain.repositories.SdwnControllerRepo;
