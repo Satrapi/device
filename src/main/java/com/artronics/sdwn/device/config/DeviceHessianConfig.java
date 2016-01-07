@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.config;
 
-import com.artronics.sdwn.controller.SwitchingNetworkService;
-import com.artronics.sdwn.device.SwitchingNetworkServiceImpl;
+import com.artronics.sdwn.controller.DeviceConnectionService;
+import com.artronics.sdwn.device.DeviceConnectionServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,18 +14,18 @@ public class DeviceHessianConfig
     private final static Logger log = Logger.getLogger(DeviceHessianConfig.class);
 
     @Autowired
-    private SwitchingNetworkService switchingNetworkDevice;
+    private DeviceConnectionService switchingNetworkDevice;
 
     @Bean
-    public SwitchingNetworkService getSwitchingNetworkService(){
-        return new SwitchingNetworkServiceImpl();
+    public DeviceConnectionService getSwitchingNetworkService(){
+        return new DeviceConnectionServiceImpl();
     }
 
     @Bean(name = "/switchingDevice")
     public HessianServiceExporter pingServiceExport() {
         HessianServiceExporter he = new HessianServiceExporter();
         he.setService(switchingNetworkDevice);
-        he.setServiceInterface(SwitchingNetworkService.class);
+        he.setServiceInterface(DeviceConnectionService.class);
         return he;
     }
 }
