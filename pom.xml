@@ -25,10 +25,22 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.artronics.gsdwn</groupId>
+			<artifactId>gsdwn-suren</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
+        <!-- Serial Com library RxTx-->
+        <dependency>
+            <groupId>org.rxtx</groupId>
+            <artifactId>rxtx</artifactId>
+            <version>2.1.7</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
