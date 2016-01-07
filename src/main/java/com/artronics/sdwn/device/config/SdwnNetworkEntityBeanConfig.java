@@ -1,5 +1,6 @@
 package com.artronics.sdwn.device.config;
 
+import com.artronics.sdwn.controller.SdwnController;
 import com.artronics.sdwn.device.exception.SdwnControllerNotFound;
 import com.artronics.sdwn.domain.config.SdwnDomainConfig;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 
 @Configuration
 @Import(SdwnDomainConfig.class)
@@ -54,22 +55,16 @@ public class SdwnNetworkEntityBeanConfig
 
     @Bean
     @DependsOn("sdwnControllerEntity")
-    @Transactional
-    SwitchingNetwork getDevice(){
-        device = netRepo.findByUrl(deviceUrl);
+    SdwnController getSdwnController(){
+        String serviceUrl = controllerEntity.getUrl()+"/sdwnController";
+        HessianProxyFactoryBean pb = new HessianProxyFactoryBean();
+        pb.setServiceUrl(serviceUrl);
+        pb.setServiceInterface(SdwnController.class);
+        pb.afterPropertiesSet();
+        SdwnController s = (SdwnController) pb.getObject();
 
-        if (device == null) {
-            log.debug("There is no Switching Device with provided Url:" + deviceUrl+"\n " +
-                              "Attempt to create one...");
-            device = new SwitchingNetwork(deviceUrl);
-            device.setDescription("Automatic Switching Network Device during bean initialization.");
-            device.setSdwnController(controllerEntity);
-            controllerEntity.addSwitchingNet(device);
-
-            controllerRepo.save(controllerEntity);
-        }
-
-        return netRepo.findByUrl(deviceUrl);
+        return s;
     }
+
 
 }
