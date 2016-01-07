@@ -9,6 +9,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import java.net.MalformedURLException;
+
 @Component
 public class DeviceEntityInitializer implements ApplicationListener<ContextRefreshedEvent>
 {
@@ -30,7 +32,11 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
         serialPort.init();
 
-        registerDevice();
+        try {
+            registerDevice();
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
 //        try {
 //            serialPort.open();
@@ -40,7 +46,8 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 //        }
     }
 
-    private void registerDevice(){
+    private void registerDevice() throws MalformedURLException
+    {
         device = new SwitchingNetwork(deviceUrl);
         device=sdwnController.registerSwitchingNetwork(device);
     }

@@ -65,6 +65,4 @@ public class SdwnNetworkEntityBeanConfig
 
         return s;
     }
-
-
 }

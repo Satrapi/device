@@ -1,6 +1,7 @@
 package com.artronics.sdwn.device;
 
 import com.artronics.sdwn.device.config.DeviceEntityConfig;
+import com.artronics.sdwn.device.config.DeviceHessianConfig;
 import com.artronics.sdwn.device.config.SdwnNetworkEntityBeanConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,7 +13,8 @@ public class DeviceEntityApplication {
         SpringApplicationBuilder builder = new SpringApplicationBuilder();
         builder.sources(DeviceEntityApplication.class,
                         DeviceEntityConfig.class,
-                        SdwnNetworkEntityBeanConfig.class)
+                        SdwnNetworkEntityBeanConfig.class,
+                        DeviceHessianConfig.class)
                .build().run(args);
 	}
 }
