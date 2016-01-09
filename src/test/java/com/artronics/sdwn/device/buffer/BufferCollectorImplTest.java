@@ -156,6 +156,12 @@ public class BufferCollectorImplTest
             return new SdwnController()
             {
                 @Override
+                public void start()
+                {
+
+                }
+
+                @Override
                 public void addPacket(PacketEntity packet)
                 {
 

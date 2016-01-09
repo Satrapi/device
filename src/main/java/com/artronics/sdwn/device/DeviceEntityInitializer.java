@@ -1,6 +1,7 @@
 package com.artronics.sdwn.device;
 
 import com.artronics.sdwn.controller.remote.DeviceRegistrationService;
+import com.artronics.sdwn.device.driver.DeviceDriver;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
     private DeviceConnectionEntity device;
 
+    private DeviceDriver deviceDriver;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
@@ -30,6 +33,13 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
         log.debug("Device has been registered with associated Controller");
         log.debug(device.toString());
+
+        startDeviceDriver();
+    }
+
+    private void startDeviceDriver(){
+        deviceDriver.init();
+        deviceDriver.open();
     }
 
     @Value("${com.artronics.sdwn.device.url}")
@@ -44,4 +54,11 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     {
         this.registrationService = registrationService;
     }
+
+    @Autowired
+    public void setDeviceDriver(DeviceDriver deviceDriver)
+    {
+        this.deviceDriver = deviceDriver;
+    }
+
 }
