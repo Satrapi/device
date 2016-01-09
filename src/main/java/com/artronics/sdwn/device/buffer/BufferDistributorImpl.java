@@ -1,6 +1,5 @@
 package com.artronics.sdwn.device.buffer;
 
-import com.artronics.sdwn.controller.SdwnController;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ public class BufferDistributorImpl implements BufferDistributor
     private static final int MAX_PACKET_LENGTH = 255;
 
     private InputStream input;
-
-    private SdwnController sdwnController;
 
     private BufferCollector bufferCollector;
 
@@ -56,7 +53,6 @@ public class BufferDistributorImpl implements BufferDistributor
 
         for (List<Integer> buff : buffers) {
             PacketEntity packet = PacketEntity.create(buff);
-            sdwnController.addPacket(packet);
         }
     }
 
@@ -72,9 +68,4 @@ public class BufferDistributorImpl implements BufferDistributor
         this.bufferCollector = bufferCollector;
     }
 
-    @Autowired
-    public void setSdwnController(SdwnController sdwnController)
-    {
-        this.sdwnController = sdwnController;
-    }
 }

@@ -1,7 +1,6 @@
 package com.artronics.sdwn.device.buffer;
 
 import com.artronics.sdwn.controller.SdwnController;
-import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.junit.Before;
 import org.junit.Test;
@@ -156,12 +155,6 @@ public class BufferCollectorImplTest
         public SdwnController getController(){
             return new SdwnController()
             {
-                @Override
-                public DeviceConnectionEntity registerDeviceConnection(DeviceConnectionEntity device)
-                {
-                    return null;
-                }
-
                 @Override
                 public void addPacket(PacketEntity packet)
                 {

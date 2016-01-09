@@ -2,6 +2,7 @@ package com.artronics.sdwn.device.config;
 
 import com.artronics.sdwn.controller.SdwnController;
 import com.artronics.sdwn.controller.exceptions.SdwnControllerNotFound;
+import com.artronics.sdwn.controller.remote.DeviceRegistrationService;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import com.artronics.sdwn.domain.repositories.SdwnControllerRepo;
@@ -14,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 
 import javax.annotation.PostConstruct;
-import java.net.MalformedURLException;
 
 @Configuration
 @ComponentScan(basePackages = "com.artronics.sdwn.domain")
@@ -24,9 +24,10 @@ public class SdwnNetworkEntityBeanConfig
 
     private SdwnControllerEntity controllerEntity;
 
+    private DeviceRegistrationService registrationService;
+
     private DeviceConnectionEntity device;
 
-//    @Autowired
     private SdwnController sdwnController;
 
     @Autowired
@@ -39,28 +40,23 @@ public class SdwnNetworkEntityBeanConfig
     @PostConstruct
     public void initDependencies(){
         this.controllerEntity = createControllerEntity();
-        this.sdwnController = createSdwnController();
+        this.registrationService = createRegistrationService();
+//        this.sdwnController = createSdwnController();
     }
 
     @Bean
-    public SdwnController getSdwnController(){
-        return this.sdwnController;
+    public DeviceRegistrationService getRegistrationService(){
+        return this.registrationService;
     }
+//
+//    @Bean
+//    public SdwnController getSdwnController(){
+//        return this.sdwnController;
+//    }
 
     @Bean
     public SdwnControllerEntity getControllerEntity(){
         return this.controllerEntity;
-    }
-
-    @Bean
-    public DeviceConnectionEntity getDevice() throws MalformedURLException
-    {
-        DeviceConnectionEntity device = new DeviceConnectionEntity(deviceUrl);
-        log.debug("Registering this DeviceConnectionEntity: " +device.toString());
-        device=sdwnController.registerDeviceConnection(device);
-        this.device = device;
-
-        return device;
     }
 
     public SdwnControllerEntity createControllerEntity() throws SdwnControllerNotFound
@@ -77,6 +73,18 @@ public class SdwnNetworkEntityBeanConfig
         }
 
         return controllerEntity;
+    }
+
+    public DeviceRegistrationService createRegistrationService(){
+        String serviceUrl = controllerEntity.getUrl()+"/registerDevice";
+        HessianProxyFactoryBean pb = new HessianProxyFactoryBean();
+        pb.setServiceUrl(serviceUrl);
+        pb.setServiceInterface(DeviceRegistrationService.class);
+        pb.afterPropertiesSet();
+        DeviceRegistrationService s = (DeviceRegistrationService) pb.getObject();
+        log.debug("Fetching Remote Service: "+s.toString());
+
+        return s;
     }
 
     public SdwnController createSdwnController(){
