@@ -3,6 +3,7 @@ package com.artronics.sdwn.device.config;
 import com.artronics.sdwn.controller.SdwnController;
 import com.artronics.sdwn.controller.exceptions.SdwnControllerNotFound;
 import com.artronics.sdwn.controller.remote.DeviceRegistrationService;
+import com.artronics.sdwn.controller.services.PacketService;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import com.artronics.sdwn.domain.repositories.SdwnControllerRepo;
@@ -26,6 +27,8 @@ public class SdwnNetworkEntityBeanConfig
 
     private DeviceRegistrationService registrationService;
 
+    private PacketService packetService;
+
     private DeviceConnectionEntity device;
 
     private SdwnController sdwnController;
@@ -41,12 +44,18 @@ public class SdwnNetworkEntityBeanConfig
     public void initDependencies(){
         this.controllerEntity = createControllerEntity();
         this.registrationService = createRegistrationService();
+        this.packetService = createPacketService();
 //        this.sdwnController = createSdwnController();
     }
 
     @Bean
     public DeviceRegistrationService getRegistrationService(){
         return this.registrationService;
+    }
+
+    @Bean
+    public PacketService getPacketService(){
+        return this.packetService;
     }
 //
 //    @Bean
@@ -82,6 +91,18 @@ public class SdwnNetworkEntityBeanConfig
         pb.setServiceInterface(DeviceRegistrationService.class);
         pb.afterPropertiesSet();
         DeviceRegistrationService s = (DeviceRegistrationService) pb.getObject();
+        log.debug("Fetching Remote Service: "+s.toString());
+
+        return s;
+    }
+
+    public PacketService createPacketService(){
+        String serviceUrl = controllerEntity.getUrl()+"/packetService";
+        HessianProxyFactoryBean pb = new HessianProxyFactoryBean();
+        pb.setServiceUrl(serviceUrl);
+        pb.setServiceInterface(PacketService.class);
+        pb.afterPropertiesSet();
+        PacketService s = (PacketService) pb.getObject();
         log.debug("Fetching Remote Service: "+s.toString());
 
         return s;
