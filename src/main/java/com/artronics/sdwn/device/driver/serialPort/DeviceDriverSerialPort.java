@@ -127,6 +127,12 @@ public class DeviceDriverSerialPort implements DeviceDriver,SerialPortEventListe
         }
     }
 
+    @Override
+    public void close() throws DeviceConnectionException
+    {
+
+    }
+
     @Autowired
     public void setBufferDistributor(
             BufferDistributor bufferDistributor)

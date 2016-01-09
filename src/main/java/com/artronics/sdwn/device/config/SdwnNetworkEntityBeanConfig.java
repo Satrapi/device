@@ -56,6 +56,7 @@ public class SdwnNetworkEntityBeanConfig
     public DeviceConnectionEntity getDevice() throws MalformedURLException
     {
         DeviceConnectionEntity device = new DeviceConnectionEntity(deviceUrl);
+        log.debug("Registering this DeviceConnectionEntity: " +device.toString());
         device=sdwnController.registerDeviceConnection(device);
         this.device = device;
 
@@ -64,6 +65,7 @@ public class SdwnNetworkEntityBeanConfig
 
     public SdwnControllerEntity createControllerEntity() throws SdwnControllerNotFound
     {
+        log.debug("Retrieving SdwnControllerEntity based on config URL: " +controllerUrl);
         controllerEntity=controllerRepo.findByUrl(controllerUrl);
 
         if (controllerEntity == null){
@@ -84,7 +86,9 @@ public class SdwnNetworkEntityBeanConfig
         pb.setServiceInterface(SdwnController.class);
         pb.afterPropertiesSet();
         SdwnController s = (SdwnController) pb.getObject();
+        log.debug("Fetching Remote Service: "+s.toString());
 
+        this.sdwnController = s;
         return s;
     }
 
