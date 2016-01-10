@@ -30,7 +30,7 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     {
         log.debug("Creating DeviceConnectionEntity with url: " +deviceUrl +" and sink address: " +sinkAddress);
 
-        device = new DeviceConnectionEntity(deviceUrl);
+        device = new DeviceConnectionEntity(deviceUrl,sinkAddress);
         device = registrationService.register(device);
 
         log.debug("Device has been registered with associated Controller");
