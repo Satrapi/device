@@ -17,6 +17,8 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
 
     private String deviceUrl;
 
+    private Long sinkAddress;
+
     private DeviceRegistrationService registrationService;
 
     private DeviceConnectionEntity device;
@@ -26,7 +28,7 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        log.debug("Creating DeviceConnectionEntity with url: " +deviceUrl);
+        log.debug("Creating DeviceConnectionEntity with url: " +deviceUrl +" and sink address: " +sinkAddress);
 
         device = new DeviceConnectionEntity(deviceUrl);
         device = registrationService.register(device);
@@ -46,6 +48,12 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     public void setDeviceUrl(String deviceUrl)
     {
         this.deviceUrl = deviceUrl;
+    }
+
+    @Value("${com.artronics.sdwn.device.sink_address}")
+    public void setSinkAddress(Long sinkAddress)
+    {
+        this.sinkAddress = sinkAddress;
     }
 
     @Autowired
