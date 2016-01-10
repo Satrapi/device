@@ -166,6 +166,12 @@ public class BufferCollectorImplTest
                 {
 
                 }
+
+                @Override
+                public void stop()
+                {
+
+                }
             };
         }
     }
