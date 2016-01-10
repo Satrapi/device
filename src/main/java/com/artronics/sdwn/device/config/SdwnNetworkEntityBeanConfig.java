@@ -40,6 +40,8 @@ public class SdwnNetworkEntityBeanConfig
 
     private String deviceUrl;
 
+    private Long sinkAddress;
+
     @PostConstruct
     public void initDependencies(){
         this.controllerEntity = createControllerEntity();
@@ -57,11 +59,17 @@ public class SdwnNetworkEntityBeanConfig
     public PacketService getPacketService(){
         return this.packetService;
     }
-//
-//    @Bean
-//    public SdwnController getSdwnController(){
-//        return this.sdwnController;
-//    }
+
+    @Bean
+    public DeviceConnectionEntity getDevice(){
+        device = new DeviceConnectionEntity(deviceUrl,sinkAddress);
+        device = registrationService.register(device);
+
+        log.debug("Device has been registered with associated Controller");
+        log.debug(device.toString());
+
+        return device;
+    }
 
     @Bean
     public SdwnControllerEntity getControllerEntity(){
@@ -131,6 +139,12 @@ public class SdwnNetworkEntityBeanConfig
     public void setDeviceUrl(String deviceUrl)
     {
         this.deviceUrl = deviceUrl;
+    }
+
+    @Value("${com.artronics.sdwn.device.sink_address}")
+    public void setSinkAddress(Long sinkAddress)
+    {
+        this.sinkAddress = sinkAddress;
     }
 
 }

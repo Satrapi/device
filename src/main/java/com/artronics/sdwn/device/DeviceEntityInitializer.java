@@ -28,14 +28,14 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event)
     {
-        log.debug("Creating DeviceConnectionEntity with url: " +deviceUrl +" and sink address: " +sinkAddress);
-
-        device = new DeviceConnectionEntity(deviceUrl,sinkAddress);
-        device = registrationService.register(device);
-
-        log.debug("Device has been registered with associated Controller");
-        log.debug(device.toString());
-
+//        log.debug("Creating DeviceConnectionEntity with url: " +deviceUrl +" and sink address: " +sinkAddress);
+//
+//        device = new DeviceConnectionEntity(deviceUrl,sinkAddress);
+//        device = registrationService.register(device);
+//
+//        log.debug("Device has been registered with associated Controller");
+//        log.debug(device.toString());
+//
         startDeviceDriver();
     }
 
@@ -54,6 +54,12 @@ public class DeviceEntityInitializer implements ApplicationListener<ContextRefre
     public void setSinkAddress(Long sinkAddress)
     {
         this.sinkAddress = sinkAddress;
+    }
+
+    @Autowired
+    public void setDevice(DeviceConnectionEntity device)
+    {
+        this.device = device;
     }
 
     @Autowired
