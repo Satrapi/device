@@ -58,8 +58,7 @@ public class BufferDistributorImpl implements BufferDistributor
         log.debug("This buffer contains " + buffers.size() + " packets");
 
         for (List<Integer> buff : buffers) {
-            PacketEntity packet = PacketEntity.create(buff);
-            packet.setDevice(device);
+            PacketEntity packet = PacketEntity.create(buff,device);
             packetService.addPacket(packet);
         }
     }
