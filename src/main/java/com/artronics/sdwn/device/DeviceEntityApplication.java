@@ -2,10 +2,8 @@ package com.artronics.sdwn.device;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.artronics.sdwn.device")
@@ -22,10 +20,5 @@ public class DeviceEntityApplication {
                .build().run(args);
 	}
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer()
-    {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
 }

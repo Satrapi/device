@@ -1,4 +1,4 @@
-package com.artronics.sdwn.device.config;
+package com.artronics.sdwn.device.config.server;
 
 import com.artronics.sdwn.controller.SdwnApplication;
 import org.apache.log4j.Logger;
