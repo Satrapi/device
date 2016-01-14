@@ -1,6 +1,6 @@
 package com.artronics.sdwn.device.buffer;
 
-import com.artronics.sdwn.controller.services.PacketService;
+import com.artronics.sdwn.device.controller.DeviceController;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import org.apache.log4j.Logger;
@@ -22,7 +22,7 @@ public class BufferDistributorImpl implements BufferDistributor
 
     private BufferCollector bufferCollector;
 
-    private PacketService packetService;
+    private DeviceController deviceController;
 
     private DeviceConnectionEntity device;
 
@@ -59,7 +59,7 @@ public class BufferDistributorImpl implements BufferDistributor
 
         for (List<Integer> buff : buffers) {
             PacketEntity packet = PacketEntity.create(buff,device);
-            packetService.addPacket(packet);
+            deviceController.addPacket(packet);
         }
     }
 
@@ -76,9 +76,9 @@ public class BufferDistributorImpl implements BufferDistributor
     }
 
     @Autowired
-    public void setPacketService(PacketService packetService)
+    public DeviceController getDeviceController()
     {
-        this.packetService = packetService;
+        return deviceController;
     }
 
     @Autowired
