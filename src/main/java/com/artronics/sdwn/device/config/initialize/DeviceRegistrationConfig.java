@@ -27,8 +27,8 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         SdwnNodeEntity sink = SdwnNodeEntity.create(sinkAddress);
         sink.setType(SdwnNodeEntity.Type.SINK);
 
-        device = new DeviceConnectionEntity(deviceUrl, sink);
-        device = deviceRegistrationService.register(device);
+        device = new DeviceConnectionEntity(deviceUrl);
+        device = deviceRegistrationService.registerDevice(device, sink);
 
         log.debug("Device has been registered with associated Controller");
         log.debug(device.toString());
