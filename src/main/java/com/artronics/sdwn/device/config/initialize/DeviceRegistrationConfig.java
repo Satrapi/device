@@ -1,8 +1,10 @@
-package com.artronics.sdwn.device.config;
+package com.artronics.sdwn.device.config.initialize;
 
 import com.artronics.sdwn.controller.remote.DeviceRegistrationService;
+import com.artronics.sdwn.device.config.DeviceBaseConfig;
 import com.artronics.sdwn.device.config.remote.DeviceRegistrationRemoteServiceConfig;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
+import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +24,10 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
 
     @Bean
     public DeviceConnectionEntity getDevice(){
-        device = new DeviceConnectionEntity(deviceUrl, sinkAddress);
+        SdwnNodeEntity sink = SdwnNodeEntity.create(sinkAddress);
+        sink.setType(SdwnNodeEntity.Type.SINK);
+
+        device = new DeviceConnectionEntity(deviceUrl, sink);
         device = deviceRegistrationService.register(device);
 
         log.debug("Device has been registered with associated Controller");
