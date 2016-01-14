@@ -2,7 +2,7 @@ package com.artronics.sdwn.device.config.remote;
 
 import com.artronics.sdwn.controller.services.PacketService;
 import com.artronics.sdwn.device.config.DeviceBaseConfig;
-import com.artronics.sdwn.device.config.SdwnControllerEntityBeanConfig;
+import com.artronics.sdwn.device.config.initialize.SdwnControllerEntityBeanConfig;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import javax.annotation.PostConstruct;
 
 @Configuration
+//@ComponentScan(basePackages = "com.artronics.sdwn.device.config.initialize")
 @Import(SdwnControllerEntityBeanConfig.class)
 public class PacketRemoteServiceConfig extends DeviceBaseConfig
 {

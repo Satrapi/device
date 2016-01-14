@@ -14,8 +14,6 @@ public class DeviceEntityApplication {
 	public static void main(String[] args) {
         SpringApplicationBuilder builder = new SpringApplicationBuilder();
         builder.sources(DeviceEntityApplication.class
-//                        SdwnNetworkEntityBeanConfig.class,
-//                        DeviceHessianConfig.class
         )
                .build().run(args);
 	}

@@ -1,7 +1,7 @@
 package com.artronics.sdwn.device.config.remote;
 
 import com.artronics.sdwn.controller.remote.NodeRegistrationService;
-import com.artronics.sdwn.device.config.SdwnControllerEntityBeanConfig;
+import com.artronics.sdwn.device.config.initialize.SdwnControllerEntityBeanConfig;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

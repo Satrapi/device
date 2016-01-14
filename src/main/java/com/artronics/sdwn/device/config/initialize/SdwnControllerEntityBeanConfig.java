@@ -1,10 +1,12 @@
-package com.artronics.sdwn.device.config;
+package com.artronics.sdwn.device.config.initialize;
 
 import com.artronics.sdwn.controller.exceptions.SdwnControllerNotFound;
+import com.artronics.sdwn.device.config.DeviceBaseConfig;
 import com.artronics.sdwn.domain.entities.SdwnControllerEntity;
 import com.artronics.sdwn.domain.repositories.SdwnControllerRepo;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,6 +26,12 @@ public class SdwnControllerEntityBeanConfig extends DeviceBaseConfig
     @PostConstruct
     public void initBean(){
         this.controllerEntity = createControllerEntity();
+    }
+
+    @Bean
+    public SdwnControllerEntity getControllerEntity()
+    {
+        return controllerEntity;
     }
 
     private SdwnControllerEntity createControllerEntity() throws SdwnControllerNotFound
