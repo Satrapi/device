@@ -46,10 +46,16 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
             srcNode = nodeRegistrationService.registerNode(packet.getSrcNode());
             nodesMap.put(srcNode.getAddress(),srcNode);
         }
+        else {
+            srcNode = nodesMap.get(srcNode.getAddress());
+        }
 
         if (!nodesMap.containsKey(dstNode.getAddress())){
             dstNode = nodeRegistrationService.registerNode(packet.getDstNode());
             nodesMap.put(dstNode.getAddress(),dstNode);
+        }
+        else {
+            dstNode = nodesMap.get(dstNode.getAddress());
         }
 
         packet.setSrcNode(srcNode);
