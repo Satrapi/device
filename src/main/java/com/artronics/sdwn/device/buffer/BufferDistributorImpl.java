@@ -76,9 +76,10 @@ public class BufferDistributorImpl implements BufferDistributor
     }
 
     @Autowired
-    public DeviceController getDeviceController()
+    public void setDeviceController(
+            DeviceController deviceController)
     {
-        return deviceController;
+        this.deviceController = deviceController;
     }
 
     @Autowired
