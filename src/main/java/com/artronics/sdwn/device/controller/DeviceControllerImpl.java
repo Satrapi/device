@@ -45,7 +45,6 @@ public class DeviceControllerImpl implements DeviceController
     }
 
     private SdwnReportPacket processReportPacket(SdwnReportPacket packet){
-
         return packet;
     }
 

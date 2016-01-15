@@ -7,14 +7,15 @@ import com.artronics.sdwn.domain.entities.node.SdwnNeighbor;
 import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import com.artronics.sdwn.domain.entities.packet.Packet;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
+import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Component
 public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
@@ -43,15 +44,15 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         registerSrcAndDstIfNotExist(packet);
 
         if (packet.getType().equals(Packet.Type.REPORT)) {
-            registerNeighborsIfNotExist(packet);
+            registerNeighborsIfNotExist((SdwnReportPacket) packet);
         }
 
         return packet;
     }
 
-    private PacketEntity registerNeighborsIfNotExist(PacketEntity packet)
+    private PacketEntity registerNeighborsIfNotExist(SdwnReportPacket packet)
     {
-        Set<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
+        List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
             if (!nodesMap.containsKey(node.getAddress())){
@@ -59,7 +60,11 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
                 node = nodeRegistrationService.registerNode(node);
                 nodesMap.put(node.getAddress(),node);
             }
+
+            neighbor.setNode(nodesMap.get(node.getAddress()));
         });
+
+        packet.setNeighbors(neighbors);
 
         return packet;
     }
