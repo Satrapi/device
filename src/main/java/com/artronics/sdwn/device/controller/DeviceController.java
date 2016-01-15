@@ -1,8 +1,8 @@
 package com.artronics.sdwn.device.controller;
 
-import com.artronics.sdwn.domain.entities.packet.PacketEntity;
+import java.util.List;
 
 public interface DeviceController
 {
-    void addPacket(PacketEntity packet);
+    void addPacket(List<Integer> buff);
 }
