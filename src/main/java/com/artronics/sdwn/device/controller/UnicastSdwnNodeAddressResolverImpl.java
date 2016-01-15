@@ -10,10 +10,11 @@ import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 {
     private final static Logger log = Logger.getLogger(UnicastSdwnNodeAddressResolverImpl.class);
 
-    private final Map<Long, SdwnNodeEntity> nodesMap = new HashMap<>();
+    private Map<Long, SdwnNodeEntity> nodesMap;
 
     private SdwnNodeEntity sink;
 
@@ -96,6 +97,13 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         return packet;
     }
 
+    @Resource
+    @Qualifier("nodesMap")
+    public void setNodesMap(
+            Map<Long, SdwnNodeEntity> nodesMap)
+    {
+        this.nodesMap = nodesMap;
+    }
 
     @Autowired
     public void setNodeRegistrationService(

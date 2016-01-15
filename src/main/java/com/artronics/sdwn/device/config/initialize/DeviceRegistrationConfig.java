@@ -8,9 +8,13 @@ import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 @Configuration
 @Import({
@@ -22,6 +26,8 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
     private final static Logger log = Logger.getLogger(DeviceRegistrationConfig.class);
 
     private DeviceConnectionEntity device;
+
+    private Map<Long,SdwnNodeEntity> nodesMap;
 
     @Autowired
     private DeviceRegistrationService deviceRegistrationService;
@@ -37,7 +43,17 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         log.debug("Device has been registered with associated Controller");
         log.debug(device.toString());
 
+        log.debug("Add sink to nodesMap");
+        nodesMap.put(sinkAddress,sink);
+
         return device;
     }
 
+    @Resource
+    @Qualifier("nodesMap")
+    public void setNodesMap(
+            Map<Long, SdwnNodeEntity> nodesMap)
+    {
+        this.nodesMap = nodesMap;
+    }
 }

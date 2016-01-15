@@ -18,5 +18,4 @@ public class DeviceEntityApplication {
                .build().run(args);
 	}
 
-
 }

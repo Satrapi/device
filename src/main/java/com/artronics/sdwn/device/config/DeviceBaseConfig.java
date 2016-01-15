@@ -1,5 +1,6 @@
 package com.artronics.sdwn.device.config;
 
+import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -7,11 +8,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 @ComponentScan(basePackages = "com.artronics.sdwn.controller.log")
 public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);
+
+    protected Map<Long,SdwnNodeEntity> nodesMap;
 
     protected String controllerUrl;
 
@@ -23,6 +29,12 @@ public class DeviceBaseConfig
     public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer()
     {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Bean(name = "nodesMap")
+    public Map<Long, SdwnNodeEntity> getNodesMap()
+    {
+        return new HashMap<>();
     }
 
     @Value("${com.artronics.sdwn.controller.url}")
