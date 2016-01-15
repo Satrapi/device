@@ -14,7 +14,6 @@ import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import javax.annotation.PostConstruct;
 
 @Configuration
-//@ComponentScan(basePackages = "com.artronics.sdwn.device.config.initialize")
 @Import(SdwnControllerEntityBeanConfig.class)
 public class PacketRemoteServiceConfig extends DeviceBaseConfig
 {
