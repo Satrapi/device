@@ -50,25 +50,6 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         return packet;
     }
 
-    private PacketEntity registerNeighborsIfNotExist(SdwnReportPacket packet)
-    {
-        List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
-        neighbors.forEach(neighbor -> {
-            SdwnNodeEntity node = neighbor.getNode();
-            if (!nodesMap.containsKey(node.getAddress())){
-                node.setDevice(device);
-                node = nodeRegistrationService.registerNode(node);
-                nodesMap.put(node.getAddress(),node);
-            }
-
-            neighbor.setNode(nodesMap.get(node.getAddress()));
-        });
-
-        packet.setNeighbors(neighbors);
-
-        return packet;
-    }
-
     private PacketEntity registerSrcAndDstIfNotExist(PacketEntity packet)
     {
         SdwnNodeEntity srcNode = packet.getSrcNode();
@@ -93,9 +74,28 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         packet.setSrcNode(srcNode);
         packet.setDstNode(dstNode);
 
+        return packet;
+    }
+
+    private PacketEntity registerNeighborsIfNotExist(SdwnReportPacket packet)
+    {
+        List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
+        neighbors.forEach(neighbor -> {
+            SdwnNodeEntity node = neighbor.getNode();
+            if (!nodesMap.containsKey(node.getAddress())){
+                node.setDevice(device);
+                node = nodeRegistrationService.registerNode(node);
+                nodesMap.put(node.getAddress(),node);
+            }
+
+            neighbor.setNode(nodesMap.get(node.getAddress()));
+        });
+
+        packet.setNeighbors(neighbors);
 
         return packet;
     }
+
 
     @Autowired
     public void setNodeRegistrationService(

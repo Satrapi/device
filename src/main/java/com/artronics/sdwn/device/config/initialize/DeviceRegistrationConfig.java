@@ -3,6 +3,7 @@ package com.artronics.sdwn.device.config.initialize;
 import com.artronics.sdwn.controller.remote.DeviceRegistrationService;
 import com.artronics.sdwn.device.config.DeviceBaseConfig;
 import com.artronics.sdwn.device.config.remote.DeviceRegistrationRemoteServiceConfig;
+import com.artronics.sdwn.device.config.remote.NodeRegistrationRemoteServiceConfig;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import org.apache.log4j.Logger;
@@ -12,7 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(DeviceRegistrationRemoteServiceConfig.class)
+@Import({
+        DeviceRegistrationRemoteServiceConfig.class,
+        NodeRegistrationRemoteServiceConfig.class
+})
 public class DeviceRegistrationConfig extends DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceRegistrationConfig.class);

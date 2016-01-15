@@ -3,10 +3,12 @@ package com.artronics.sdwn.device.config;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
+@ComponentScan(basePackages = "com.artronics.sdwn.controller.log")
 public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);

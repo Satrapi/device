@@ -1,6 +1,7 @@
 package com.artronics.sdwn.device.controller;
 
 import com.artronics.sdwn.controller.address.NodeAddressResolver;
+import com.artronics.sdwn.controller.log.PacketLogger;
 import com.artronics.sdwn.controller.services.PacketService;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketFactory;
@@ -16,6 +17,9 @@ public class DeviceControllerImpl implements DeviceController
 {
     private final static Logger log = Logger.getLogger(DeviceControllerImpl.class);
 
+    @Autowired
+    private PacketLogger packetLogger;
+
     private NodeAddressResolver addressResolver;
 
     private PacketFactory packetFactory;
@@ -26,6 +30,7 @@ public class DeviceControllerImpl implements DeviceController
     public void addPacket(List<Integer> buff)
     {
         PacketEntity packet =(PacketEntity) packetFactory.create(buff);
+        packetLogger.logDevice(packet);
         addressResolver.resolveNodeAddress(packet);
 
         switch (packet.getType()){
