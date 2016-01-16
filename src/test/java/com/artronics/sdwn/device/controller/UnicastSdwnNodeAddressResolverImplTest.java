@@ -33,7 +33,7 @@ public class UnicastSdwnNodeAddressResolverImplTest
     private NodeAddressResolver addressResolver;
 
     @Resource
-    @Qualifier("registeredNodes")
+    @Qualifier("deviceNodes")
     private Map<Long,SdwnNodeEntity> registeredNodes;
 
     @Autowired

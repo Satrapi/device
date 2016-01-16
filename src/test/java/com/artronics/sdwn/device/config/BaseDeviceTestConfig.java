@@ -27,7 +27,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
     protected NodeAddressResolver nodeAddressResolver;
 
     @Resource
-    @Qualifier("registeredNodes")
+    @Qualifier("deviceNodes")
     protected Map<Long,SdwnNodeEntity> registeredNodes;
 
     @Bean
