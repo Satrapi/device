@@ -1,12 +1,12 @@
 package com.artronics.sdwn.device.controller;
 
 import com.artronics.sdwn.controller.address.NodeAddressResolver;
-import com.artronics.sdwn.controller.log.PacketLogger;
 import com.artronics.sdwn.controller.services.PacketService;
 import com.artronics.sdwn.domain.entities.node.SdwnNeighbor;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketFactory;
 import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
+import com.artronics.sdwn.domain.log.PacketLogger;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

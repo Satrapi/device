@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ComponentScan(basePackages = "com.artronics.sdwn.controller.log")
+@ComponentScan(basePackages = "com.artronics.sdwn.domain.log")
 public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);
