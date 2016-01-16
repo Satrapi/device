@@ -17,7 +17,7 @@ public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);
 
-    protected Map<Long,SdwnNodeEntity> nodesMap;
+    protected Map<Long,SdwnNodeEntity> registeredMap;
 
     protected String controllerUrl;
 
@@ -31,8 +31,8 @@ public class DeviceBaseConfig
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    @Bean(name = "nodesMap")
-    public Map<Long, SdwnNodeEntity> getNodesMap()
+    @Bean(name = "registeredNodes")
+    public Map<Long, SdwnNodeEntity> getRegisteredMap()
     {
         return new HashMap<>();
     }

@@ -23,7 +23,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 {
     private final static Logger log = Logger.getLogger(UnicastSdwnNodeAddressResolverImpl.class);
 
-    private Map<Long, SdwnNodeEntity> nodesMap;
+    private Map<Long, SdwnNodeEntity> registeredNodes;
 
     private SdwnNodeEntity sink;
 
@@ -36,7 +36,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
     {
         this.sink = device.getSinkNode();
 
-        nodesMap.put(sink.getAddress(), sink);
+        registeredNodes.put(sink.getAddress(), sink);
     }
 
     @Override
@@ -58,18 +58,18 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         srcNode.setDevice(device);
         dstNode.setDevice(device);
 
-        if (!nodesMap.containsKey(srcNode.getAddress())) {
+        if (!registeredNodes.containsKey(srcNode.getAddress())) {
             srcNode = nodeRegistrationService.registerNode(packet.getSrcNode());
-            nodesMap.put(srcNode.getAddress(), srcNode);
+            registeredNodes.put(srcNode.getAddress(), srcNode);
         }else {
-            srcNode = nodesMap.get(srcNode.getAddress());
+            srcNode = registeredNodes.get(srcNode.getAddress());
         }
 
-        if (!nodesMap.containsKey(dstNode.getAddress())) {
+        if (!registeredNodes.containsKey(dstNode.getAddress())) {
             dstNode = nodeRegistrationService.registerNode(packet.getDstNode());
-            nodesMap.put(dstNode.getAddress(), dstNode);
+            registeredNodes.put(dstNode.getAddress(), dstNode);
         }else {
-            dstNode = nodesMap.get(dstNode.getAddress());
+            dstNode = registeredNodes.get(dstNode.getAddress());
         }
 
         packet.setSrcNode(srcNode);
@@ -83,13 +83,13 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
-            if (!nodesMap.containsKey(node.getAddress())){
+            if (!registeredNodes.containsKey(node.getAddress())){
                 node.setDevice(device);
                 node = nodeRegistrationService.registerNode(node);
-                nodesMap.put(node.getAddress(),node);
+                registeredNodes.put(node.getAddress(), node);
             }
 
-            neighbor.setNode(nodesMap.get(node.getAddress()));
+            neighbor.setNode(registeredNodes.get(node.getAddress()));
         });
 
         packet.setNeighbors(neighbors);
@@ -98,11 +98,11 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
     }
 
     @Resource
-    @Qualifier("nodesMap")
-    public void setNodesMap(
-            Map<Long, SdwnNodeEntity> nodesMap)
+    @Qualifier("registeredNodes")
+    public void setRegisteredNodes(
+            Map<Long, SdwnNodeEntity> registeredNodes)
     {
-        this.nodesMap = nodesMap;
+        this.registeredNodes = registeredNodes;
     }
 
     @Autowired

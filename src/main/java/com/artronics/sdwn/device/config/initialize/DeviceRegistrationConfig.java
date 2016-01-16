@@ -43,14 +43,14 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         log.debug("Device has been registered with associated Controller");
         log.debug(device.toString());
 
-        log.debug("Add sink to nodesMap");
+        log.debug("Add sink to registeredMap");
         nodesMap.put(sinkAddress,sink);
 
         return device;
     }
 
     @Resource
-    @Qualifier("nodesMap")
+    @Qualifier("registeredNodes")
     public void setNodesMap(
             Map<Long, SdwnNodeEntity> nodesMap)
     {
