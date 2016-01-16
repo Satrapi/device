@@ -19,7 +19,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 {
     private final static Logger log = Logger.getLogger(UnicastSdwnNodeAddressResolverImpl.class);
 
-    private Map<Long,SdwnNodeEntity> registeredNodes;
+    private Map<Long,SdwnNodeEntity> deviceNodes;
 
     private SdwnNodeEntity sink;
 
@@ -32,7 +32,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
     {
         this.sink = device.getSinkNode();
 
-        registeredNodes.put(sink.getAddress(),sink);
+        deviceNodes.put(sink.getAddress(), sink);
     }
 
     @Override
@@ -50,18 +50,18 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         srcNode.setDevice(device);
         dstNode.setDevice(device);
 
-        if (!registeredNodes.containsKey(srcNode.getAddress())) {
+        if (!deviceNodes.containsKey(srcNode.getAddress())) {
             srcNode = nodeRegistrationService.registerNode(packet.getSrcNode());
-            registeredNodes.put(srcNode.getAddress(), srcNode);
+            deviceNodes.put(srcNode.getAddress(), srcNode);
         }else {
-            srcNode = registeredNodes.get(srcNode.getAddress());
+            srcNode = deviceNodes.get(srcNode.getAddress());
         }
 
-        if (!registeredNodes.containsKey(dstNode.getAddress())) {
+        if (!deviceNodes.containsKey(dstNode.getAddress())) {
             dstNode = nodeRegistrationService.registerNode(packet.getDstNode());
-            registeredNodes.put(dstNode.getAddress(), dstNode);
+            deviceNodes.put(dstNode.getAddress(), dstNode);
         }else {
-            dstNode = registeredNodes.get(dstNode.getAddress());
+            dstNode = deviceNodes.get(dstNode.getAddress());
         }
 
         packet.setSrcNode(srcNode);
@@ -72,11 +72,11 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 
 
     @Resource
-    @Qualifier("controllerNodes")
-    public void setRegisteredNodes(
-            Map<Long, SdwnNodeEntity> registeredNodes)
+    @Qualifier("deviceNodes")
+    public void setDeviceNodes(
+            Map<Long, SdwnNodeEntity> deviceNodes)
     {
-        this.registeredNodes = registeredNodes;
+        this.deviceNodes = deviceNodes;
     }
 
     @Autowired

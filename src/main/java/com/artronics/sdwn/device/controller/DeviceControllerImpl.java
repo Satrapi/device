@@ -33,7 +33,7 @@ public class DeviceControllerImpl implements DeviceController
 
     private NodeRegistrationService nodeRegistrationService;
 
-    private Map<Long,SdwnNodeEntity> registeredNodes;
+    private Map<Long,SdwnNodeEntity> deviceNodes;
 
     private PacketFactory packetFactory;
 
@@ -78,13 +78,13 @@ public class DeviceControllerImpl implements DeviceController
         List<SdwnNeighbor> neighbors = packet.getNeighbors();
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
-            if (!registeredNodes.containsKey(node.getAddress())){
+            if (!deviceNodes.containsKey(node.getAddress())){
                 node.setDevice(device);
                 node = nodeRegistrationService.registerNode(node);
-                registeredNodes.put(node.getAddress(),node);
+                deviceNodes.put(node.getAddress(), node);
             }
 
-            neighbor.setNode(registeredNodes.get(node.getAddress()));
+            neighbor.setNode(deviceNodes.get(node.getAddress()));
         });
 
         packet.setNeighbors(neighbors);
@@ -100,11 +100,11 @@ public class DeviceControllerImpl implements DeviceController
     }
 
     @Resource
-    @Qualifier("controllerNodes")
-    public void setRegisteredNodes(
-            Map<Long, SdwnNodeEntity> registeredNodes)
+    @Qualifier("deviceNodes")
+    public void setDeviceNodes(
+            Map<Long, SdwnNodeEntity> deviceNodes)
     {
-        this.registeredNodes = registeredNodes;
+        this.deviceNodes = deviceNodes;
     }
 
     @Autowired
