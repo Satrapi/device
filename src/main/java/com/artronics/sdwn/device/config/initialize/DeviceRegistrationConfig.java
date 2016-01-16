@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import java.util.Map;
+import java.util.Set;
 
 @Configuration
 @Import({
@@ -27,7 +27,7 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
 
     private DeviceConnectionEntity device;
 
-    private Map<Long,SdwnNodeEntity> nodesMap;
+    private Set<SdwnNodeEntity> registeredNodes;
 
     @Autowired
     private DeviceRegistrationService deviceRegistrationService;
@@ -44,16 +44,17 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         log.debug(device.toString());
 
         log.debug("Add sink to registeredNodes");
-        nodesMap.put(sinkAddress,sink);
+        registeredNodes.add(sink);
 
         return device;
     }
 
     @Resource
     @Qualifier("registeredNodes")
-    public void setNodesMap(
-            Map<Long, SdwnNodeEntity> nodesMap)
+    public void setRegisteredNodes(
+            Set<SdwnNodeEntity> registeredNodes)
     {
-        this.nodesMap = nodesMap;
+        this.registeredNodes = registeredNodes;
     }
+
 }
