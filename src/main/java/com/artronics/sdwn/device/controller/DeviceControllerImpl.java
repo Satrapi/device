@@ -7,6 +7,7 @@ import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketFactory;
 import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
 import com.artronics.sdwn.domain.log.PacketLogger;
+import com.artronics.sdwn.domain.log.PacketLoggerImpl;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,8 @@ import java.util.List;
 public class DeviceControllerImpl implements DeviceController
 {
     private final static Logger log = Logger.getLogger(DeviceControllerImpl.class);
+    private final static PacketLogger packetLogger= new PacketLoggerImpl(DeviceControllerImpl.class);
 
-    @Autowired
-    private PacketLogger packetLogger;
 
     private NodeAddressResolver addressResolver;
 

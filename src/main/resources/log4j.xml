@@ -10,6 +10,12 @@
             <param name="ConversionPattern" value="%-5p [%-10t]: %m%n"/>
         </layout>
     </appender>
+    <appender name="sdwn_logger_cons_apn" class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%m%n"/>
+        </layout>
+    </appender>
     <appender name="file" class="org.apache.log4j.RollingFileAppender">
         <param name="append" value="false" />
         <param name="maxFileSize" value="10KB" />
@@ -38,6 +44,11 @@
     <logger name="com.artronics.sdwn.device" additivity="false">
         <level value="debug"/>
         <appender-ref ref="console"></appender-ref>
+    </logger>
+
+    <logger name="com.artronics.sdwn.logger" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="sdwn_logger_cons_apn"></appender-ref>
     </logger>
 
     <root>
