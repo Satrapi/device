@@ -1,6 +1,7 @@
 package com.artronics.sdwn.device.controller;
 
 import com.artronics.sdwn.controller.address.NodeAddressResolver;
+import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
 import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
 import com.artronics.sdwn.domain.helpers.FakeDevicePacketFactory;
@@ -13,7 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Map;
+import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
@@ -30,7 +31,10 @@ public class UnicastSdwnNodeAddressResolverImplTest
 
     @Resource
     @Qualifier("registeredNodes")
-    private Map<Long,SdwnNodeEntity> registeredNodes;
+    private Set<SdwnNodeEntity> registeredNodes;
+
+    @Autowired
+    private DeviceConnectionEntity device;
 
     private FakeDevicePacketFactory factory = new FakeDevicePacketFactory();
 
@@ -45,6 +49,8 @@ public class UnicastSdwnNodeAddressResolverImplTest
     {
         fakeId++;
         sink = new SdwnNodeEntity(sinkAddress);
+        sink.setDevice(device);
+
         node30 = new SdwnNodeEntity(30L);
         node35 = new SdwnNodeEntity(35L);
         node36 = new SdwnNodeEntity(36L);
@@ -53,7 +59,7 @@ public class UnicastSdwnNodeAddressResolverImplTest
 
     @Test
     public void it_should_persist_sink_during_bean_creation(){
-        assertTrue(registeredNodes.containsKey(sink.getAddress()));
+        assertTrue(registeredNodes.contains(sink));
     }
 
     @Test
@@ -61,7 +67,7 @@ public class UnicastSdwnNodeAddressResolverImplTest
         SdwnReportPacket packet = factory.createReportPacket(fakeId,node30,node100,node35,node36);
         addressResolver.resolveNodeAddress(packet);
 
-        assertTrue(registeredNodes.containsKey(node30));
-        assertTrue(registeredNodes.containsKey(node100));
+        assertTrue(registeredNodes.contains(node30));
+        assertTrue(registeredNodes.contains(node100));
     }
 }

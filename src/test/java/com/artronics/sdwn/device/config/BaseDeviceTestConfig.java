@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.Resource;
-import java.util.Map;
+import java.util.Set;
 
 @Configuration
 @PropertySource("classpath:application-defaults-test.properties")
@@ -26,7 +26,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
 
     @Resource
     @Qualifier("registeredNodes")
-    protected Map<Long,SdwnNodeEntity> registeredNodes;
+    protected Set<SdwnNodeEntity> registeredNodes;
 
     @Bean
     public NodeRegistrationService getNodeRegistrationService()
@@ -51,7 +51,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
         this.deviceConnectionEntity = new DeviceConnectionEntity(100L,deviceUrl,sink);
         sink.setDevice(deviceConnectionEntity);
 
-        registeredNodes.put(sink.getAddress(),sink);
+        registeredNodes.add(sink);
 
         return deviceConnectionEntity;
     }

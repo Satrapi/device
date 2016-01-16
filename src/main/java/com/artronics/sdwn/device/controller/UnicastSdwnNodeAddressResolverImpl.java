@@ -16,14 +16,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @Component
 public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 {
     private final static Logger log = Logger.getLogger(UnicastSdwnNodeAddressResolverImpl.class);
 
-    private Map<Long, SdwnNodeEntity> registeredNodes;
+    private Set<SdwnNodeEntity> registeredNodes;
 
     private SdwnNodeEntity sink;
 
@@ -36,7 +36,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
     {
         this.sink = device.getSinkNode();
 
-        registeredNodes.put(sink.getAddress(), sink);
+        registeredNodes.add(sink);
     }
 
     @Override
@@ -58,22 +58,18 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         srcNode.setDevice(device);
         dstNode.setDevice(device);
 
-        if (!registeredNodes.containsKey(srcNode.getAddress())) {
-            srcNode = nodeRegistrationService.registerNode(packet.getSrcNode());
-            registeredNodes.put(srcNode.getAddress(), srcNode);
+        if (!registeredNodes.contains(srcNode)) {
+            nodeRegistrationService.registerNode(packet.getSrcNode());
+            registeredNodes.add(packet.getSrcNode());
         }else {
-            srcNode = registeredNodes.get(srcNode.getAddress());
+
         }
 
-        if (!registeredNodes.containsKey(dstNode.getAddress())) {
-            dstNode = nodeRegistrationService.registerNode(packet.getDstNode());
-            registeredNodes.put(dstNode.getAddress(), dstNode);
+        if (!registeredNodes.contains(dstNode)) {
+            nodeRegistrationService.registerNode(packet.getDstNode());
+            registeredNodes.add(packet.getDstNode());
         }else {
-            dstNode = registeredNodes.get(dstNode.getAddress());
         }
-
-        packet.setSrcNode(srcNode);
-        packet.setDstNode(dstNode);
 
         return packet;
     }
@@ -83,13 +79,13 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         List<SdwnNeighbor> neighbors = packet.getNeighbors();
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
-            if (!registeredNodes.containsKey(node.getAddress())){
+            if (!registeredNodes.contains(node)){
                 node.setDevice(device);
                 node = nodeRegistrationService.registerNode(node);
-                registeredNodes.put(node.getAddress(), node);
+                registeredNodes.add(node);
             }
 
-            neighbor.setNode(registeredNodes.get(node.getAddress()));
+            neighbor.setNode(node);
         });
 
         packet.setNeighbors(neighbors);
@@ -97,10 +93,11 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         return packet;
     }
 
+
     @Resource
     @Qualifier("registeredNodes")
     public void setRegisteredNodes(
-            Map<Long, SdwnNodeEntity> registeredNodes)
+            Set<SdwnNodeEntity> registeredNodes)
     {
         this.registeredNodes = registeredNodes;
     }
