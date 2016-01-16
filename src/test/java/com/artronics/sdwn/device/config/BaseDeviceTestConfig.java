@@ -1,27 +1,59 @@
 package com.artronics.sdwn.device.config;
 
+import com.artronics.sdwn.controller.address.NodeAddressResolver;
 import com.artronics.sdwn.controller.remote.NodeRegistrationService;
-import com.artronics.sdwn.device.mocks.MockNodeRegisterationRemoteService;
-import org.apache.log4j.Logger;
+import com.artronics.sdwn.device.mocks.MockNodeRegistrationRemoteService;
+import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
+import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
+import javax.annotation.Resource;
+import java.util.Map;
+
 @Configuration
-@Import({
-        DeviceBaseConfig.class,
-})
 @PropertySource("classpath:application-defaults-test.properties")
-public class BaseDeviceTestConfig
+public class BaseDeviceTestConfig extends DeviceBaseConfig
 {
-    private final static Logger log = Logger.getLogger(BaseDeviceTestConfig.class);
-    private NodeRegistrationService nodeRegistrationService;
+    protected NodeRegistrationService nodeRegistrationService;
+
+    protected DeviceConnectionEntity deviceConnectionEntity;
+
+    protected NodeAddressResolver nodeAddressResolver;
+
+    @Resource
+    @Qualifier("registeredNodes")
+    protected Map<Long,SdwnNodeEntity> registeredNodes;
 
     @Bean
     public NodeRegistrationService getNodeRegistrationService()
     {
-        this.nodeRegistrationService = new MockNodeRegisterationRemoteService();
+        this.nodeRegistrationService = new MockNodeRegistrationRemoteService();
         return nodeRegistrationService;
     }
+
+    @Bean
+    public NodeAddressResolver getNodeAddressResolver()
+    {
+        return nodeAddressResolver;
+    }
+
+    @Bean
+    public DeviceConnectionEntity getDeviceConnectionEntity()
+    {
+        SdwnNodeEntity sink = new SdwnNodeEntity(sinkAddress);
+        sink.setId(sink.getAddress());
+        sink.setStatus(SdwnNodeEntity.Status.IDLE);
+
+        this.deviceConnectionEntity = new DeviceConnectionEntity(100L,deviceUrl,sink);
+        sink.setDevice(deviceConnectionEntity);
+
+        registeredNodes.put(sink.getAddress(),sink);
+
+        return deviceConnectionEntity;
+    }
+
+
 }

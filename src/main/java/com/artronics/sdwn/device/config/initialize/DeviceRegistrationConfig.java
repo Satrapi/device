@@ -43,7 +43,7 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         log.debug("Device has been registered with associated Controller");
         log.debug(device.toString());
 
-        log.debug("Add sink to registeredMap");
+        log.debug("Add sink to registeredNodes");
         nodesMap.put(sinkAddress,sink);
 
         return device;

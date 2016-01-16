@@ -17,7 +17,7 @@ public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);
 
-    protected Map<Long,SdwnNodeEntity> registeredMap;
+    protected Map<Long,SdwnNodeEntity> registeredNodes;
 
     protected String controllerUrl;
 
@@ -32,7 +32,7 @@ public class DeviceBaseConfig
     }
 
     @Bean(name = "registeredNodes")
-    public Map<Long, SdwnNodeEntity> getRegisteredMap()
+    public Map<Long, SdwnNodeEntity> getRegisteredNodes()
     {
         return new HashMap<>();
     }
