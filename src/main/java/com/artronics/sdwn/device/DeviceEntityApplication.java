@@ -1,12 +1,17 @@
 package com.artronics.sdwn.device;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
-@SpringBootApplication
-@ComponentScan(basePackages = "com.artronics.sdwn.device")
+//@SpringBootApplication
+@EnableAutoConfiguration
+@Configuration
+@ComponentScan(basePackages = {"com.artronics.sdwn.device",
+"com.artronics.sdwn.domain"
+})
 @PropertySource("classpath:application.properties")
 //@Import(SdwnDomainApplication.class)
 public class DeviceEntityApplication {
