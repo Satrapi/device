@@ -100,7 +100,7 @@ public class DeviceControllerImpl implements DeviceController
     }
 
     @Resource
-    @Qualifier("registeredNodes")
+    @Qualifier("controllerNodes")
     public void setRegisteredNodes(
             Map<Long, SdwnNodeEntity> registeredNodes)
     {

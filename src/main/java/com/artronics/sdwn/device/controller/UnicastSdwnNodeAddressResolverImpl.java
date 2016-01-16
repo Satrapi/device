@@ -72,7 +72,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 
 
     @Resource
-    @Qualifier("registeredNodes")
+    @Qualifier("controllerNodes")
     public void setRegisteredNodes(
             Map<Long, SdwnNodeEntity> registeredNodes)
     {
