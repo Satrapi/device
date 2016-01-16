@@ -44,7 +44,7 @@ public class DeviceRegistrationConfig extends DeviceBaseConfig
         log.debug(device.toString());
 
         log.debug("Add sink to registeredNodes");
-        registeredNodes.add(sink);
+        registeredNodes.add(device.getSinkNode());
 
         return device;
     }

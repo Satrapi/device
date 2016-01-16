@@ -79,8 +79,8 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         List<SdwnNeighbor> neighbors = packet.getNeighbors();
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
+            node.setDevice(device);
             if (!registeredNodes.contains(node)){
-                node.setDevice(device);
                 node = nodeRegistrationService.registerNode(node);
                 registeredNodes.add(node);
             }

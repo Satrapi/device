@@ -14,6 +14,8 @@ import org.springframework.context.annotation.PropertySource;
 import javax.annotation.Resource;
 import java.util.Set;
 
+import static org.mockito.Mockito.spy;
+
 @Configuration
 @PropertySource("classpath:application-defaults-test.properties")
 public class BaseDeviceTestConfig extends DeviceBaseConfig
@@ -31,7 +33,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
     @Bean
     public NodeRegistrationService getNodeRegistrationService()
     {
-        this.nodeRegistrationService = new MockNodeRegistrationRemoteService();
+        this.nodeRegistrationService = spy(new MockNodeRegistrationRemoteService());
         return nodeRegistrationService;
     }
 
