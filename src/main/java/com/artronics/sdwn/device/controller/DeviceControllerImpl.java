@@ -33,7 +33,7 @@ public class DeviceControllerImpl implements DeviceController
         PacketEntity packet = null;
         try {
             packet = (PacketEntity) packetFactory.create(buff);
-            packetLogger.logDevice(packet);
+            packetLogger.log(packet);
             addressResolver.resolveNodeAddress(packet);
 
             switch (packet.getType()){
