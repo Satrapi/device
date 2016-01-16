@@ -18,9 +18,13 @@ public class MockNodeRegistrationRemoteService implements NodeRegistrationServic
     @Override
     public SdwnNodeEntity registerNode(SdwnNodeEntity node)
     {
-        node.setId(node.getAddress());
-        node.setStatus(SdwnNodeEntity.Status.IDLE);
-        node.setSession(session);
+        //Create a new instance so we can simulate db and deserialization
+        SdwnNodeEntity persistedNode = new SdwnNodeEntity();
+
+        persistedNode.setAddress(node.getAddress());
+        persistedNode.setId(node.getAddress());
+        persistedNode.setStatus(SdwnNodeEntity.Status.IDLE);
+        persistedNode.setSession(session);
 
         return node;
     }
