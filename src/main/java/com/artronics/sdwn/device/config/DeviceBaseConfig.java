@@ -8,8 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @ComponentScan(basePackages = "com.artronics.sdwn.controller.log")
@@ -17,7 +17,7 @@ public class DeviceBaseConfig
 {
     private final static Logger log = Logger.getLogger(DeviceBaseConfig.class);
 
-    protected Set<SdwnNodeEntity> registeredNodes;
+    protected Map<Long,SdwnNodeEntity> registeredNodes;
 
     protected String controllerUrl;
 
@@ -32,9 +32,9 @@ public class DeviceBaseConfig
     }
 
     @Bean(name = "registeredNodes")
-    public Set<SdwnNodeEntity> getRegisteredNodes()
+    public Map<Long, SdwnNodeEntity> getRegisteredNodes()
     {
-        return new HashSet<>();
+        return new HashMap<>();
     }
 
     @Value("${com.artronics.sdwn.controller.url}")

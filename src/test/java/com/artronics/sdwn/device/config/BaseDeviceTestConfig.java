@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.Resource;
-import java.util.Set;
+import java.util.Map;
 
 import static org.mockito.Mockito.spy;
 
@@ -28,7 +28,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
 
     @Resource
     @Qualifier("registeredNodes")
-    protected Set<SdwnNodeEntity> registeredNodes;
+    protected Map<Long,SdwnNodeEntity> registeredNodes;
 
     @Bean
     public NodeRegistrationService getNodeRegistrationService()
@@ -53,7 +53,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
         this.deviceConnectionEntity = new DeviceConnectionEntity(100L,deviceUrl,sink);
         sink.setDevice(deviceConnectionEntity);
 
-        registeredNodes.add(sink);
+        registeredNodes.put(sink.getAddress(),sink);
 
         return deviceConnectionEntity;
     }

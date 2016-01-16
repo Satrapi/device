@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Set;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
@@ -34,7 +34,7 @@ public class UnicastSdwnNodeAddressResolverImplTest
 
     @Resource
     @Qualifier("registeredNodes")
-    private Set<SdwnNodeEntity> registeredNodes;
+    private Map<Long,SdwnNodeEntity> registeredNodes;
 
     @Autowired
     private DeviceConnectionEntity device;
@@ -72,7 +72,7 @@ public class UnicastSdwnNodeAddressResolverImplTest
 
     @Test
     public void it_should_persist_sink_during_bean_creation(){
-        assertTrue(registeredNodes.contains(sink));
+        assertTrue(registeredNodes.containsKey(sink.getAddress()));
     }
 
     @Test
@@ -80,8 +80,8 @@ public class UnicastSdwnNodeAddressResolverImplTest
         SdwnReportPacket packet = factory.createReportPacket(fakeId,node30,node100,node35,node36);
         addressResolver.resolveNodeAddress(packet);
 
-        assertTrue(registeredNodes.contains(node30));
-        assertTrue(registeredNodes.contains(node100));
+        assertTrue(registeredNodes.containsKey(node30.getAddress()));
+        assertTrue(registeredNodes.containsKey(node100.getAddress()));
     }
 
     @Test
@@ -93,10 +93,6 @@ public class UnicastSdwnNodeAddressResolverImplTest
         addressResolver.resolveNodeAddress(packet2);
 
         verify(nodeRegistrationService,times(4)).registerNode(any(SdwnNodeEntity.class));
-//        verify(nodeRegistrationService,times(1)).registerNode(node30);
-//        verify(nodeRegistrationService,times(1)).registerNode(node100);
-//        verify(nodeRegistrationService,times(1)).registerNode(node35);
-//        verify(nodeRegistrationService,times(1)).registerNode(node36);
         verifyNoMoreInteractions(nodeRegistrationService);
     }
 
