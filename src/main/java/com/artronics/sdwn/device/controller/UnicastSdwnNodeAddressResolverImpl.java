@@ -58,14 +58,14 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         srcNode.setDevice(device);
         dstNode.setDevice(device);
 
-        if (!registeredNodes.containsKey(srcNode)) {
+        if (!registeredNodes.containsKey(srcNode.getAddress())) {
             nodeRegistrationService.registerNode(packet.getSrcNode());
             registeredNodes.put(packet.getSrcNode().getAddress(),packet.getSrcNode());
         }else {
             packet.setSrcNode(registeredNodes.get(srcNode.getAddress()));
         }
 
-        if (!registeredNodes.containsKey(dstNode)) {
+        if (!registeredNodes.containsKey(dstNode.getAddress())) {
             nodeRegistrationService.registerNode(packet.getDstNode());
             registeredNodes.put(packet.getDstNode().getAddress(),packet.getDstNode());
         }else {
@@ -87,6 +87,8 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
             }
 
             neighbor.setNode(node);
+
+            neighbors.add(neighbor);
         });
 
         packet.setNeighbors(neighbors);
