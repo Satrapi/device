@@ -80,7 +80,7 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
 
     private PacketEntity registerNeighborsIfNotExist(SdwnReportPacket packet)
     {
-        List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
+        List<SdwnNeighbor> neighbors = packet.getNeighbors();
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
             if (!registeredNodes.containsKey(node.getAddress())){

@@ -3,6 +3,7 @@ package com.artronics.sdwn.device.controller;
 import com.artronics.sdwn.controller.address.NodeAddressResolver;
 import com.artronics.sdwn.controller.log.PacketLogger;
 import com.artronics.sdwn.controller.services.PacketService;
+import com.artronics.sdwn.domain.entities.node.SdwnNeighbor;
 import com.artronics.sdwn.domain.entities.packet.PacketEntity;
 import com.artronics.sdwn.domain.entities.packet.PacketFactory;
 import com.artronics.sdwn.domain.entities.packet.SdwnReportPacket;
@@ -50,6 +51,9 @@ public class DeviceControllerImpl implements DeviceController
     }
 
     private SdwnReportPacket processReportPacket(SdwnReportPacket packet){
+        List<SdwnNeighbor> neighbors = SdwnNeighbor.createNeighbors(packet);
+        packet.setNeighbors(neighbors);
+
         return packet;
     }
 

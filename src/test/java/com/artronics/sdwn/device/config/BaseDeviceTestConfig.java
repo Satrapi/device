@@ -2,6 +2,7 @@ package com.artronics.sdwn.device.config;
 
 import com.artronics.sdwn.controller.address.NodeAddressResolver;
 import com.artronics.sdwn.controller.remote.NodeRegistrationService;
+import com.artronics.sdwn.device.controller.UnicastSdwnNodeAddressResolverImpl;
 import com.artronics.sdwn.device.mocks.MockNodeRegistrationRemoteService;
 import com.artronics.sdwn.domain.entities.DeviceConnectionEntity;
 import com.artronics.sdwn.domain.entities.node.SdwnNodeEntity;
@@ -37,7 +38,7 @@ public class BaseDeviceTestConfig extends DeviceBaseConfig
     @Bean
     public NodeAddressResolver getNodeAddressResolver()
     {
-        return nodeAddressResolver;
+        return new UnicastSdwnNodeAddressResolverImpl();
     }
 
     @Bean
