@@ -30,16 +30,21 @@ public class DeviceControllerImpl implements DeviceController
     @Override
     public void addPacket(List<Integer> buff)
     {
-        PacketEntity packet =(PacketEntity) packetFactory.create(buff);
-        packetLogger.logDevice(packet);
-        addressResolver.resolveNodeAddress(packet);
+        PacketEntity packet = null;
+        try {
+            packet = (PacketEntity) packetFactory.create(buff);
+            packetLogger.logDevice(packet);
+            addressResolver.resolveNodeAddress(packet);
 
-        switch (packet.getType()){
-            case REPORT:
-                processReportPacket((SdwnReportPacket) packet);
-                break;
+            switch (packet.getType()){
+                case REPORT:
+                    processReportPacket((SdwnReportPacket) packet);
+                    break;
 
-            default:
+                default:
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
         }
 
 

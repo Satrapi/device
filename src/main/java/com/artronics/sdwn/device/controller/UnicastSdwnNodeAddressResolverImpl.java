@@ -59,18 +59,21 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         dstNode.setDevice(device);
 
         if (!registeredNodes.containsKey(srcNode.getAddress())) {
-            nodeRegistrationService.registerNode(packet.getSrcNode());
-            registeredNodes.put(packet.getSrcNode().getAddress(),packet.getSrcNode());
+            srcNode = nodeRegistrationService.registerNode(packet.getSrcNode());
+            registeredNodes.put(srcNode.getAddress(), srcNode);
         }else {
-            packet.setSrcNode(registeredNodes.get(srcNode.getAddress()));
+            srcNode = registeredNodes.get(srcNode.getAddress());
         }
 
         if (!registeredNodes.containsKey(dstNode.getAddress())) {
-            nodeRegistrationService.registerNode(packet.getDstNode());
-            registeredNodes.put(packet.getDstNode().getAddress(),packet.getDstNode());
+            dstNode = nodeRegistrationService.registerNode(packet.getDstNode());
+            registeredNodes.put(dstNode.getAddress(), dstNode);
         }else {
-            packet.setDstNode(registeredNodes.get(dstNode.getAddress()));
+            dstNode = registeredNodes.get(dstNode.getAddress());
         }
+
+        packet.setSrcNode(srcNode);
+        packet.setDstNode(dstNode);
 
         return packet;
     }
@@ -80,15 +83,13 @@ public class UnicastSdwnNodeAddressResolverImpl implements NodeAddressResolver
         List<SdwnNeighbor> neighbors = packet.getNeighbors();
         neighbors.forEach(neighbor -> {
             SdwnNodeEntity node = neighbor.getNode();
-            node.setDevice(device);
             if (!registeredNodes.containsKey(node.getAddress())){
+                node.setDevice(device);
                 node = nodeRegistrationService.registerNode(node);
                 registeredNodes.put(node.getAddress(),node);
             }
 
-            neighbor.setNode(node);
-
-            neighbors.add(neighbor);
+            neighbor.setNode(registeredNodes.get(node.getAddress()));
         });
 
         packet.setNeighbors(neighbors);
